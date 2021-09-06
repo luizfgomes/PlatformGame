@@ -29,14 +29,24 @@ public class InputsPlayerController : MonoBehaviour {
             controller.Jump();
         }
 
-        if (horizontal > 0) {
+        FlipPlayer();
+        AnimationControllerWithInputs();
+    }
+
+
+    void FlipPlayer() {
+
+        if (horizontal>0) {
 
             spritePlayer.FlipSprite(1);
 
-        } else if (horizontal < 0) {
+        } else if (horizontal<0) {
 
             spritePlayer.FlipSprite(-1);
         }
+    }
+
+    void AnimationControllerWithInputs() {
 
         if (!playerTrigger.isJump&&!isJump) {
 
@@ -64,10 +74,5 @@ public class InputsPlayerController : MonoBehaviour {
             playerAnimController.SetAnimTrigger("Idle");
 
         }
-    }
-
-    public void FixedUpdate() {
-
-
     }
 }
