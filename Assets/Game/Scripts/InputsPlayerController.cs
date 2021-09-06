@@ -8,7 +8,7 @@ public class InputsPlayerController : MonoBehaviour {
 
     void Start() {
 
-        playerAnimController = GetComponent<PlayerAnimationController>();
+        playerAnimController=GetComponent<PlayerAnimationController>();
         controller=GetComponent<PlayerController2D>();
         spritePlayer=GetComponent<SpritePlayer>();
     }
@@ -18,15 +18,24 @@ public class InputsPlayerController : MonoBehaviour {
         var horizontal = Input.GetAxis("Horizontal");
         controller.Move(horizontal);
 
-        if (horizontal>0) {
-            spritePlayer.FlipSprite(1);
-        } else if (horizontal<0) {
-            spritePlayer.FlipSprite(-1);
-        }
-
         if (Input.GetButtonDown("Jump")) {
 
             controller.Jump();
+            return;
         }
+
+        if (horizontal>0) {
+
+            spritePlayer.FlipSprite(1);
+            
+        } else if (horizontal<0) {
+
+            spritePlayer.FlipSprite(-1);
+        }
+
+        if (horizontal !=0)
+            playerAnimController.SetAnimTrigger("Run");
+        else
+            playerAnimController.SetAnimTrigger("Idle");
     }
 }
