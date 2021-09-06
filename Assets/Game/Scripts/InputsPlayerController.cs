@@ -100,9 +100,7 @@ public class InputsPlayerController : MonoBehaviour {
 
     IEnumerator PlayerHurt() {
 
-        controller.Hurt();
-        Debug.Log(transform.position.x);
-        Debug.Log(transform.position.y);
+        controller.Hurt(5, playerTrigger.dist);
         yield return new WaitForSeconds(0.5f);
 
         isHurt=false;

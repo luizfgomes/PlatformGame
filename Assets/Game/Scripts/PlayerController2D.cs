@@ -29,8 +29,11 @@ public class PlayerController2D : MonoBehaviour {
             rb2D.velocity=new Vector2(0, jumpSpeed);
     }
 
-    public void Hurt() {
-
-        rb2D.velocity=new Vector2(-5, 5);
+    public void Hurt(float value = 5, float setWay = 1) {
+        
+        if(setWay > 1)
+            rb2D.velocity=new Vector2(-value, value);
+        else
+            rb2D.velocity=new Vector2(value, value);
     }
 }
