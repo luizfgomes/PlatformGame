@@ -12,7 +12,7 @@ public class PlayerTriggers : MonoBehaviour {
 
             isEnemyCollision=true;
             dist = Vector3.Distance(collision.transform.position, transform.position);
-
+            PlayerController2D.life--;
         }
     }
 

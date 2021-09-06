@@ -13,6 +13,7 @@ public class InputsPlayerController : MonoBehaviour {
     float  horizontal;
 
     public bool isHurt;
+    public bool isSlide;
 
     void Start() {
 
@@ -21,18 +22,44 @@ public class InputsPlayerController : MonoBehaviour {
         spritePlayer=GetComponent<SpritePlayer>();
         playerTrigger=GetComponent<PlayerTriggers>();
 
-        isHurt=false;
+        isHurt = false;
+        isSlide = false;
     }
 
     public void Update() {
 
+        if (GameManager.isGameOver)
+            return;
+
         horizontal = Input.GetAxis("Horizontal");
         
+        if (Input.GetButtonDown("Slider")) {
+
+            playerAnimController.SetAnimTrigger("Slide");
+            if (!isSlide) {
+                StartCoroutine(SlideTime());
+                isSlide=true;
+            }
+            
+        }
+
+        if (isSlide)
+            return;
+
         if (playerTrigger.isEnemyCollision && !isHurt) {
 
             isHurt=true;
             StartCoroutine(PlayerHurt());
-            playerAnimController.SetAnimTrigger("Hurt");
+
+            if (PlayerController2D.life >0) {
+
+                playerAnimController.SetAnimTrigger("Hurt");
+            } else {
+
+                playerAnimController.SetAnimTrigger("Dead");
+                GameManager.isGameOver=true;
+            }
+                
         }
 
         if (isHurt)
@@ -84,6 +111,7 @@ public class InputsPlayerController : MonoBehaviour {
         playerAnimController.SetAnimBool("JumpExit", isJump);
 
         if (isJump) {
+
             return;
         }
 
@@ -103,6 +131,14 @@ public class InputsPlayerController : MonoBehaviour {
         controller.Hurt(5, playerTrigger.dist);
         yield return new WaitForSeconds(0.5f);
 
+        if (GameManager.isGameOver)
+            controller.Hurt(0, 0);
         isHurt=false;
+    }
+
+    IEnumerator SlideTime() {
+
+        yield return new WaitForSeconds(0.5f);
+        isSlide=false;
     }
 }
