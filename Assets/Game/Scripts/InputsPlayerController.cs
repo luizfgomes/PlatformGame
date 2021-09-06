@@ -30,9 +30,15 @@ public class InputsPlayerController : MonoBehaviour {
         }
 
         FlipPlayer();
+
         AnimationControllerWithInputs();
     }
 
+
+    void EnemyCollision() {
+
+
+    }
 
     void FlipPlayer() {
 
