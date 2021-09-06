@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerTriggers : MonoBehaviour {
 
-    public bool isJump;
+    public bool isJump=true;
 
     private void OnTriggerStay2D(Collider2D collision) {
 

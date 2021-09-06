@@ -20,7 +20,7 @@ public class PlayerController2D : MonoBehaviour {
 
     public Vector2 Move(float setWay) {
 
-        return rig2D.velocity=new Vector2(speed * setWay, rig2D.velocity.y);
+        return rig2D.velocity = new Vector2(speed * setWay, rig2D.velocity.y);
     }
 
     public void Jump() {
