@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+
 
 public class InputsPlayerController : MonoBehaviour {
 
@@ -10,17 +12,31 @@ public class InputsPlayerController : MonoBehaviour {
     public bool isJump = false;
     float  horizontal;
 
+    public bool isHurt;
+
     void Start() {
 
         playerAnimController=GetComponent<PlayerAnimationController>();
         controller=GetComponent<PlayerController2D>();
         spritePlayer=GetComponent<SpritePlayer>();
         playerTrigger=GetComponent<PlayerTriggers>();
+
+        isHurt=false;
     }
 
     public void Update() {
 
         horizontal = Input.GetAxis("Horizontal");
+        
+        if (playerTrigger.isEnemyCollision && !isHurt) {
+
+            isHurt=true;
+            StartCoroutine(PlayerHurt());
+            playerAnimController.SetAnimTrigger("Hurt");
+        }
+
+        if (isHurt)
+            return;
 
         controller.Move(horizontal);
 
@@ -37,7 +53,7 @@ public class InputsPlayerController : MonoBehaviour {
 
     void EnemyCollision() {
 
-
+        StartCoroutine(PlayerHurt());
     }
 
     void FlipPlayer() {
@@ -80,5 +96,15 @@ public class InputsPlayerController : MonoBehaviour {
             playerAnimController.SetAnimTrigger("Idle");
 
         }
+    }
+
+    IEnumerator PlayerHurt() {
+
+        controller.Hurt();
+        Debug.Log(transform.position.x);
+        Debug.Log(transform.position.y);
+        yield return new WaitForSeconds(0.5f);
+
+        isHurt=false;
     }
 }
